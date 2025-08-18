@@ -1,5 +1,10 @@
 HELP.md
+### CUSTOM ###
+application-local.yml
 target/
+tmp/
+
+
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

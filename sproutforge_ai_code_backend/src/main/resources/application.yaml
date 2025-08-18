@@ -1,6 +1,8 @@
 spring:
   application:
     name: sproutforge_ai_code_backend
+  profiles:
+    active: local
   # mysql
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -22,3 +24,10 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
+#  langchain4j
+langchain4j:
+  open-ai:
+    chat-model:
+      max-tokens: 8192
+      strict-json-schema: true
+      response-format: json_object
