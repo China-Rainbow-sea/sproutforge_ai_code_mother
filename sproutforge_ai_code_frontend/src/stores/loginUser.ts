@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { getLoginUser } from '@/api/userController.ts'
 
 /**
- * 登录用户信息(获取)
+ * 登录用户信息
  */
 export const useLoginUserStore = defineStore('loginUser', () => {
   // 默认值
@@ -18,11 +18,11 @@ export const useLoginUserStore = defineStore('loginUser', () => {
       loginUser.value = res.data.data
     }
   }
+
   // 更新登录用户信息
   function setLoginUser(newLoginUser: any) {
     loginUser.value = newLoginUser
   }
 
-  // 将方法导出，用于其他页面模块使用
-  return { loginUser, setLoginUser, fetchLoginUser }
+  return { loginUser, fetchLoginUser, setLoginUser }
 })
