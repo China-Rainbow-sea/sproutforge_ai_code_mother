@@ -14,6 +14,7 @@ import com.rainbowsea.sproutforgeaicodebackend.model.entity.ChatHistory;
 import com.rainbowsea.sproutforgeaicodebackend.mapper.ChatHistoryMapper;
 import com.rainbowsea.sproutforgeaicodebackend.model.entity.User;
 import com.rainbowsea.sproutforgeaicodebackend.model.enums.ChatHistoryMessageTypeEnum;
+import com.rainbowsea.sproutforgeaicodebackend.service.AppService;
 import com.rainbowsea.sproutforgeaicodebackend.service.ChatHistoryService;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.UserMessage;
