@@ -3,7 +3,12 @@ package com.rainbowsea.sproutforgeaicodebackend.ai;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.rainbowsea.sproutforgeaicodebackend.ai.tools.FileDeleteTool;
+import com.rainbowsea.sproutforgeaicodebackend.ai.tools.FileDirReadTool;
+import com.rainbowsea.sproutforgeaicodebackend.ai.tools.FileModifyTool;
+import com.rainbowsea.sproutforgeaicodebackend.ai.tools.FileReadTool;
 import com.rainbowsea.sproutforgeaicodebackend.ai.tools.FileWriteTool;
+import com.rainbowsea.sproutforgeaicodebackend.ai.tools.ToolManager;
 import com.rainbowsea.sproutforgeaicodebackend.exception.BusinessException;
 import com.rainbowsea.sproutforgeaicodebackend.exception.ErrorCode;
 import com.rainbowsea.sproutforgeaicodebackend.model.enums.CodeGenTypeEnum;
@@ -44,6 +49,10 @@ public class AiCodeGeneratorServiceFactory {
 
     @Resource
     private ChatHistoryService chatHistoryService;
+
+    // AI 可调用的工具管理器
+    @Resource
+    private ToolManager toolManager;
 
 
     /**
@@ -108,7 +117,7 @@ public class AiCodeGeneratorServiceFactory {
                     .chatModel(chatModel)
                     .streamingChatModel(reasoningStreamingChatModel)
                     .chatMemoryProvider(memoryId -> chatMemory)
-                    .tools(new FileWriteTool())
+                    .tools(toolManager.getAllTools())
                     // 处理工具调用幻觉问题
                     .hallucinatedToolNameStrategy(toolExecutionRequest ->
                             ToolExecutionResultMessage.from(toolExecutionRequest,
