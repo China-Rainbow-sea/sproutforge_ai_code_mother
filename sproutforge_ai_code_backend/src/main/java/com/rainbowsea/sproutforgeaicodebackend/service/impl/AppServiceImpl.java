@@ -8,6 +8,7 @@ import cn.hutool.core.util.StrUtil;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.rainbowsea.sproutforgeaicodebackend.ai.AiCodeGenTypeRoutingService;
+import com.rainbowsea.sproutforgeaicodebackend.ai.AiCodeGenTypeRoutingServiceFactory;
 import com.rainbowsea.sproutforgeaicodebackend.constant.AppConstant;
 import com.rainbowsea.sproutforgeaicodebackend.core.AiCodeGeneratorFacade;
 import com.rainbowsea.sproutforgeaicodebackend.core.builder.VueProjectBuilder;
@@ -52,6 +53,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppService {
 
+
     @Resource
     private UserService userService;
 
@@ -64,17 +66,19 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
     @Resource
     private StreamHandlerExecutor streamHandlerExecutor;
 
-
     @Resource
     private VueProjectBuilder vueProjectBuilder;
+
+
+    @Resource
+    private AiCodeGenTypeRoutingServiceFactory aiCodeGenTypeRoutingServiceFactory;
 
     // 截图服务
     @Resource
     private ScreenshotService screenshotService;
 
-    // AI 路由选择(Html,{html,css,js},vue 这三种的那种方式实现用户的代码需求)
-    @Resource
-    private AiCodeGenTypeRoutingService aiCodeGenTypeRoutingService;
+
+
 
     @Override
     public Long createApp(AppAddRequest appAddRequest, User loginUser) {
@@ -87,8 +91,9 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
         app.setUserId(loginUser.getId());
         // 应用名称暂时为 initPrompt 前 12 位
         app.setAppName(initPrompt.substring(0, Math.min(initPrompt.length(), 12)));
-        // 使用 AI 智能选择代码生成类型
-        CodeGenTypeEnum selectedCodeGenType = aiCodeGenTypeRoutingService.routeCodeGenType(initPrompt);
+        // 使用 AI 智能选择代码生成类型（多例模式）
+        AiCodeGenTypeRoutingService routingService = aiCodeGenTypeRoutingServiceFactory.createAiCodeGenTypeRoutingService();
+        CodeGenTypeEnum selectedCodeGenType = routingService.routeCodeGenType(initPrompt);
         app.setCodeGenType(selectedCodeGenType.getValue());
         // 插入数据库
         boolean result = this.save(app);
