@@ -29,6 +29,7 @@ import com.rainbowsea.sproutforgeaicodebackend.service.AppService;
 import com.rainbowsea.sproutforgeaicodebackend.service.ChatHistoryService;
 import com.rainbowsea.sproutforgeaicodebackend.service.ScreenshotService;
 import com.rainbowsea.sproutforgeaicodebackend.service.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppService {
 
+    @Value("${code.deploy-host:http://localhost}")
+    private String deployHost;
+
 
     @Resource
     private UserService userService;
@@ -76,8 +80,6 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
     // 截图服务
     @Resource
     private ScreenshotService screenshotService;
-
-
 
 
     @Override
@@ -185,8 +187,10 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
         updateApp.setDeployedTime(LocalDateTime.now());
         boolean updateResult = this.updateById(updateApp);
         ThrowUtils.throwIf(!updateResult, ErrorCode.OPERATION_ERROR, "更新应用部署信息失败");
-        // 10. 得到可访问的 URL 地址
-        String appDeployUrl = String.format("%s/%s", AppConstant.CODE_DEPLOY_HOST, deployKey);
+        // 10. 得到可访问的 URL 地址(本地项目启动，用这个配置部署)
+        //String appDeployUrl = String.format("%s/%s", AppConstant.CODE_DEPLOY_HOST, deployKey);
+        // 远程系统部署后，用下面这个动态的部署。
+        String appDeployUrl = String.format("%s/%s", deployHost, deployKey); // deployHost 线上部署的地址位置
         // 11. 异步生成截图并且更新应用封面
         generateAppScreenshotAsync(appId, appDeployUrl);
         return appDeployUrl;

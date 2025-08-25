@@ -99,7 +99,14 @@ public class WebScreenshotUtils {
         try {
             // 自动管理 ChromeDriver
             //WebDriverManager.chromedriver().setup();
-            WebDriverManager.chromedriver().useMirror().setup();
+
+
+            // 设置使用 GitHub 镜像源来获取 ChromeDriver 版本信息
+            System.setProperty("wdm.chromeGoodVersionsUrl", "https://raw.githubusercontent.com/GoogleChromeLabs/chrome-for-testing/main/data/known-good-versions-with-downloads.json");
+            System.setProperty("wdm.chromeLastGoodVersionsUrl", "https://raw.githubusercontent.com/GoogleChromeLabs/chrome-for-testing/main/data/last-known-good-versions-with-downloads.json");
+
+
+            WebDriverManager.chromedriver().useMirror().setup(); // 让WebDriverManager自动选择匹配的版本
             // 配置 Chrome 选项
             ChromeOptions options = new ChromeOptions();
             // 无头模式

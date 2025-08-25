@@ -2,7 +2,7 @@ spring:
   application:
     name: sproutforge_ai_code_backend
   profiles:
-    active: local
+    active: prod
   # session 配置
   session:
     store-type: redis
