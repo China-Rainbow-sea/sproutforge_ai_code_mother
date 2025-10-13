@@ -184,12 +184,14 @@ public class UserController {
      */
     @PostMapping("/register")
     public BaseResponse<Long> userRegister(@RequestBody UserRegisterRequest userRegisterRequest) {
-        ThrowUtils.throwIf(userRegisterRequest == null, ErrorCode.PARAMS_ERROR);
-        String userAccount = userRegisterRequest.getUserAccount();
-        String userPassword = userRegisterRequest.getUserPassword();
-        String checkPassword = userRegisterRequest.getCheckPassword();
-        long result = userService.userRegister(userAccount, userPassword, checkPassword);
-        return ResultUtils.success(result);
+        // 部署上线，暂不支持注册
+        throw new BusinessException(ErrorCode.NO_AUTH_ERROR, "暂不支持注册");
+        //ThrowUtils.throwIf(userRegisterRequest == null, ErrorCode.PARAMS_ERROR);
+        //String userAccount = userRegisterRequest.getUserAccount();
+        //String userPassword = userRegisterRequest.getUserPassword();
+        //String checkPassword = userRegisterRequest.getCheckPassword();
+        //long result = userService.userRegister(userAccount, userPassword, checkPassword);
+        //return ResultUtils.success(result);
     }
 
 
