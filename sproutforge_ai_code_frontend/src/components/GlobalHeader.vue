@@ -83,10 +83,16 @@ const originItems = [
     title: '应用管理',
   },
   {
+    key: 'helps',
+    label: h('a', { href: 'https://share.note.youdao.com/s/59De1n6H', target: '_blank' }, '快速上手'),
+    title: '快速上手',
+  },
+  {
     key: 'others',
     label: h('a', { href: 'https://rainbowsea.blog.csdn.net/', target: '_blank' }, 'RainbowSea 博客'),
     title: 'RainbowSea博客',
-  },
+  }
+
 ]
 
 // 过滤菜单项

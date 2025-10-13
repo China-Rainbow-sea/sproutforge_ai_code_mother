@@ -2,6 +2,17 @@
   <div id="userRegisterPage">
     <h2 class="title">萌构 AI 应用生成 - 用户注册</h2>
     <div class="desc">不写一行代码，生成完整应用</div>
+    <!--       主页提示公告  -->
+    <div class="notice">
+      <a-space direction="vertical" style="width: 100%">
+        <a-alert
+          description="暂不支持注册，提供账号: rainbowsea 密码: 12345678；如有特殊需要，请联系管理员: 3339528244@qq.com"
+          message="重要公告！！！"
+          type="info"
+          closable
+        />
+      </a-space>
+    </div>
     <a-form :model="formState" name="basic" autocomplete="off" @finish="handleSubmit">
       <a-form-item name="userAccount" :rules="[{ required: true, message: '请输入账号' }]">
         <a-input v-model:value="formState.userAccount" placeholder="请输入账号" />
