@@ -187,7 +187,7 @@ onMounted(() => {
       <div class="input-section">
         <a-textarea
           v-model:value="userPrompt"
-          placeholder="帮我创建个人博客网站"
+          placeholder="注意：由于所使用的大模型的限制可能生成时间较长，强烈建议，最后加上代码的限制行数，提高生成速度，eg:总代码数不得超过300 500 600行"
           :rows="4"
           :maxlength="1000"
           class="prompt-input"
